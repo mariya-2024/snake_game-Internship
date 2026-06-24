@@ -1,0 +1,365 @@
+/* ══════════════════════════════════════════════════════════
+   SNAKE GAME v2 — style.css
+   Sections:
+     1. Reset & CSS Variables
+     2. Layout / Screens
+     3. Menu Box
+     4. High Score Row
+     5. Buttons
+     6. Info Box (Instructions & Game Over)
+     7. HUD
+     8. Canvas & Overlays
+     9. Day/Night theme classes (applied to body)
+     10. Animations
+══════════════════════════════════════════════════════════ */
+
+
+/* ── 1. Reset & CSS Variables ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Core palette */
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --border:    #30363d;
+  --green:     #3fb950;
+  --head:      #58e06f;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --accent:    #388bfd;
+  --danger:    #f85149;
+  --frog:      #4ade80;      /* frog body */
+  --frog-jump: #facc15;      /* frog when it can jump */
+  --guard:     #f97316;      /* guard snake colour */
+
+  /* Day/night — these get overridden by body class */
+  --sky-bg:    #0d1117;
+  --sky-grid:  rgba(255,255,255,0.03);
+  --sky-tint:  transparent;
+}
+
+/* ── Evening theme ── */
+body.evening {
+  --sky-bg:   #1a0f2e;
+  --sky-grid: rgba(255,200,100,0.04);
+}
+
+/* ── Night theme ── */
+body.night {
+  --sky-bg:   #05080f;
+  --sky-grid: rgba(100,150,255,0.03);
+}
+
+
+/* ── 2. Layout / Screens ────────────────────────────────── */
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  transition: background .8s ease;
+}
+
+.screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+.screen.active { display: flex; }
+
+#screen-game {
+  flex-direction: column;
+  gap: 10px;
+  /* background shifts with day/night */
+  background: var(--sky-bg);
+  transition: background 1.5s ease;
+}
+
+
+/* ── 3. Menu Box ────────────────────────────────────────── */
+.menu-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 52px;
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+}
+
+.title-wrap { text-align: center; }
+
+.title-icon {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 14px var(--green));
+  animation: bob 2.4s ease-in-out infinite;
+}
+
+.game-title {
+  font-size: 50px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: var(--green);
+  text-shadow: 0 0 24px rgba(63,185,80,0.5);
+  line-height: 1;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
+
+/* ── 4. Per-difficulty High Score Row ───────────────────── */
+.hs-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.hs-block {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.hs-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.hs-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+
+/* ── 5. Buttons ─────────────────────────────────────────── */
+.difficulty-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.diff-btn {
+  flex: 1;
+  padding: 8px 0;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.diff-btn:hover  { border-color: var(--green); color: var(--green); }
+.diff-btn.active { background: var(--green); border-color: var(--green); color: #0d1117; }
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn {
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .1s, opacity .15s;
+  letter-spacing: .5px;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary   { background: var(--green); color: #0d1117; }
+.btn-primary:hover { background: var(--head); }
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-size: 13px;
+}
+.btn-ghost:hover { color: var(--danger); }
+
+
+/* ── 6. Info Box ────────────────────────────────────────── */
+.info-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 44px;
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.info-box h2 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.info-section h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.info-section ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.info-section li { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.info-section li strong { color: var(--text); }
+
+kbd {
+  display: inline-block;
+  background: var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-family: monospace;
+  border: 1px solid #484f58;
+  margin-right: 4px;
+}
+
+/* Game over specific */
+.gameover-box   { align-items: center; text-align: center; }
+.gameover-icon  { font-size: 52px; animation: shake .4s ease; }
+
+.score-row      { display: flex; gap: 32px; justify-content: center; width: 100%; }
+.score-block    { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.score-label    { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.score-value    { font-size: 38px; font-weight: 900; color: var(--green); }
+.go-diff-label  { font-size: 13px; color: var(--muted); }
+.go-diff-label span { color: var(--text); font-weight: 700; }
+
+
+/* ── 7. HUD ─────────────────────────────────────────────── */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 18px;
+  width: 600px;
+}
+
+.hud-item      { font-size: 13px; color: var(--muted); }
+.hud-item strong { color: var(--text); }
+.pause-hint    { flex: 1; text-align: center; font-size: 11px; opacity: .4; }
+
+.diff-badge {
+  margin-left: auto;
+  background: var(--green);
+  color: #0d1117;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+#hud-timeofday { font-size: 13px; }
+
+
+/* ── 8. Canvas & Overlays ───────────────────────────────── */
+.canvas-wrap {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 40px rgba(63,185,80,0.06);
+}
+
+#game-canvas { display: block; }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,17,23,0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay.hidden { display: none; }
+
+.overlay-box {
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 28px 44px;
+}
+.overlay-title { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+.overlay-sub   { color: var(--muted); font-size: 13px; }
+
+/* Frog jump flash — brief yellow tint on canvas */
+.frog-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(250,204,21,0.18);
+  pointer-events: none;
+  animation: flash-fade .3s ease forwards;
+}
+.frog-flash.hidden { display: none; }
+
+@keyframes flash-fade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* ── 10. Animations ─────────────────────────────────────── */
+@keyframes bob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes shake {
+  0%,100% { transform: rotate(0); }
+  25%      { transform: rotate(-8deg); }
+  75%      { transform: rotate(8deg); }
+}
