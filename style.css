@@ -363,3 +363,324 @@ kbd {
   25%      { transform: rotate(-8deg); }
   75%      { transform: rotate(8deg); }
 }
+
+
+/* ══════════════════════════════════════════════════════════
+   SNAKE ARCADE — Additional styles for:
+     - Game Select screen
+     - Puzzle level-select screen
+     - Puzzle game HUD
+     - Win overlay
+   (Appended to existing style.css from Classic Snake)
+══════════════════════════════════════════════════════════ */
+
+
+/* ── Game Select screen ─────────────────────────────────── */
+.select-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 40px 24px;
+  width: 100%;
+  max-width: 780px;
+}
+
+/* The two game cards side by side */
+.game-cards {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  justify-content: center;
+}
+
+.game-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 28px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.game-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 32px rgba(63,185,80,0.18);
+  transform: translateY(-4px);
+}
+
+.card-icon {
+  font-size: 52px;
+  filter: drop-shadow(0 0 12px var(--green));
+}
+
+.card-body { text-align: center; width: 100%; }
+
+.card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: .5px;
+}
+
+.card-desc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.card-tags {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .4px;
+}
+
+.card-btn { margin-top: 4px; }
+
+/* Back-to-select link on classic snake menu */
+#btn-back-select {
+  font-size: 12px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: color .15s;
+}
+#btn-back-select:hover { color: var(--accent); }
+
+
+/* ── Puzzle Level Select ────────────────────────────────── */
+.puzzle-select-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 36px 48px;
+  width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+}
+
+.psel-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.psel-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.psel-sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.psel-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.psel-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 10px;
+}
+
+.psel-levels {
+  display: flex;
+  gap: 12px;
+}
+
+.level-btn {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .15s, transform .1s;
+}
+.level-btn:hover {
+  border-color: var(--green);
+  transform: translateY(-2px);
+}
+.level-btn.completed {
+  border-color: var(--green);
+  background: rgba(63,185,80,0.06);
+}
+
+.lvl-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.lvl-stars {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+.level-btn.completed .lvl-stars { color: #facc15; }
+
+/* Icon button (back arrow, reset) */
+.btn-icon {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color .15s;
+  line-height: 1;
+}
+.btn-icon:hover { border-color: var(--accent); }
+
+
+/* ── Puzzle Game HUD (top bar) ──────────────────────────── */
+#screen-puzzle-game { flex-direction: column; gap: 10px; }
+
+.puzzle-hud {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 18px;
+  width: 600px;
+}
+
+.phud-info { flex: 1; }
+
+.phud-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: .3px;
+  line-height: 1.2;
+}
+
+.phud-sub { font-size: 11px; color: var(--muted); }
+
+.phud-stats { display: flex; gap: 10px; }
+
+.phud-stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 54px;
+}
+
+.phud-stat-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.phud-stat-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+}
+
+.btn-hint {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+  white-space: nowrap;
+}
+.btn-hint:hover { border-color: #facc15; color: #facc15; background: rgba(250,204,21,0.06); }
+
+.puzzle-canvas-wrap { cursor: grab; }
+.puzzle-canvas-wrap:active { cursor: grabbing; }
+
+
+/* ── Puzzle Win Overlay ─────────────────────────────────── */
+.win-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 52px;
+}
+
+.win-emoji {
+  font-size: 52px;
+  animation: pop .4s cubic-bezier(.36,2,.6,1) forwards;
+}
+
+@keyframes pop {
+  0%   { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.win-stars {
+  font-size: 32px;
+  letter-spacing: 6px;
+  animation: slide-in .4s .1s ease both;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.win-detail {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.win-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}

@@ -3,62 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Snake Game v2</title>
+  <title>Snake Arcade</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- ══════════════════════════════════════════════════════
-       SCREEN 1 — MAIN MENU
+       SCREEN: GAME SELECT  (shown first — pick which game)
   ══════════════════════════════════════════════════════ -->
-  <div id="screen-menu" class="screen active">
-    <div class="menu-box">
+  <div id="screen-select" class="screen active">
+    <div class="select-box">
 
+      <div class="title-wrap">
+        <span class="title-icon">🐍</span>
+        <h1 class="game-title">SNAKE ARCADE</h1>
+        <p class="subtitle">Two games. One snake.</p>
+      </div>
+
+      <div class="game-cards">
+
+        <!-- Card 1 — Classic Snake -->
+        <div class="game-card" id="card-classic">
+          <div class="card-icon">🕹️</div>
+          <div class="card-body">
+            <h2 class="card-title">Classic Snake</h2>
+            <p class="card-desc">Hunt frogs, dodge guards, survive the night.</p>
+            <div class="card-tags">
+              <span class="tag">Arcade</span>
+              <span class="tag">3 Difficulties</span>
+              <span class="tag">Day/Night</span>
+            </div>
+          </div>
+          <button class="btn btn-primary card-btn">Play ▶</button>
+        </div>
+
+        <!-- Card 2 — Let the Snake Out -->
+        <div class="game-card" id="card-puzzle">
+          <div class="card-icon">🧩</div>
+          <div class="card-body">
+            <h2 class="card-title">Let the Snake Out</h2>
+            <p class="card-desc">Slide the blocks. Free the snake. Escape!</p>
+            <div class="card-tags">
+              <span class="tag">Puzzle</span>
+              <span class="tag">9 Levels</span>
+              <span class="tag">Star Rating</span>
+            </div>
+          </div>
+          <button class="btn btn-primary card-btn">Play ▶</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════
+       CLASSIC SNAKE SCREENS  (unchanged from v2)
+  ══════════════════════════════════════════════════════ -->
+
+  <div id="screen-menu" class="screen">
+    <div class="menu-box">
       <div class="title-wrap">
         <span class="title-icon">🐍</span>
         <h1 class="game-title">SNAKE</h1>
         <p class="subtitle">Hunt the frog. Dodge the guards.</p>
       </div>
-
-      <!-- Per-difficulty high scores shown on menu -->
       <div class="hs-row">
-        <div class="hs-block">
-          <span class="hs-label">Easy</span>
-          <span class="hs-val" id="hs-easy">0</span>
-        </div>
-        <div class="hs-block">
-          <span class="hs-label">Medium</span>
-          <span class="hs-val" id="hs-medium">0</span>
-        </div>
-        <div class="hs-block">
-          <span class="hs-label">Hard</span>
-          <span class="hs-val" id="hs-hard">0</span>
-        </div>
+        <div class="hs-block"><span class="hs-label">Easy</span><span class="hs-val" id="hs-easy">0</span></div>
+        <div class="hs-block"><span class="hs-label">Medium</span><span class="hs-val" id="hs-medium">0</span></div>
+        <div class="hs-block"><span class="hs-label">Hard</span><span class="hs-val" id="hs-hard">0</span></div>
       </div>
-
-      <!-- Difficulty selector -->
       <div class="difficulty-row">
         <button class="diff-btn active" data-diff="easy">🟢 Easy</button>
         <button class="diff-btn"        data-diff="medium">🟡 Medium</button>
         <button class="diff-btn"        data-diff="hard">🔴 Hard</button>
       </div>
-
       <div class="menu-buttons">
         <button class="btn btn-primary"   id="btn-start">▶ Start Game</button>
         <button class="btn btn-secondary" id="btn-instructions">📋 How to Play</button>
-        <button class="btn btn-ghost"     id="btn-quit">✕ Quit</button>
+        <button class="btn btn-ghost"     id="btn-back-select">← Game Select</button>
       </div>
-
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════
-       SCREEN 2 — INSTRUCTIONS
-  ══════════════════════════════════════════════════════ -->
   <div id="screen-instructions" class="screen">
     <div class="info-box">
       <h2>How to Play</h2>
-
       <div class="info-section">
         <h3>🎮 Controls</h3>
         <ul>
@@ -66,7 +96,6 @@
           <li><kbd>P</kbd> — Pause / Resume</li>
         </ul>
       </div>
-
       <div class="info-section">
         <h3>🐸 The Frog</h3>
         <ul>
@@ -75,16 +104,13 @@
           <li>Higher difficulty = frogs jump more often &amp; more times</li>
         </ul>
       </div>
-
       <div class="info-section">
         <h3>🐍 Guard Snakes (Hard only)</h3>
         <ul>
           <li>Two guards patrol near the frog <strong>vertically</strong></li>
           <li>Touching a guard = instant game over</li>
-          <li>Time your move — squeeze past them!</li>
         </ul>
       </div>
-
       <div class="info-section">
         <h3>🌙 Day / Night Cycle</h3>
         <ul>
@@ -92,25 +118,11 @@
           <li>At night, <strong>visibility shrinks</strong> around your snake</li>
         </ul>
       </div>
-
-      <div class="info-section">
-        <h3>💀 Game Over When…</h3>
-        <ul>
-          <li>Snake hits a wall or itself</li>
-          <li>Snake touches a guard snake</li>
-        </ul>
-      </div>
-
       <button class="btn btn-secondary" id="btn-back">← Back</button>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════
-       SCREEN 3 — GAME
-  ══════════════════════════════════════════════════════ -->
   <div id="screen-game" class="screen">
-
-    <!-- HUD bar -->
     <div class="hud">
       <span class="hud-item">Score: <strong id="hud-score">0</strong></span>
       <span class="hud-item" id="hud-timeofday">☀️ Day</span>
@@ -118,46 +130,27 @@
       <span class="hud-item">Best: <strong id="hud-highscore">0</strong></span>
       <span class="hud-item diff-badge" id="hud-diff">Easy</span>
     </div>
-
-    <!-- Canvas + overlays -->
     <div class="canvas-wrap">
       <canvas id="game-canvas" width="600" height="600"></canvas>
-
-      <!-- Pause overlay -->
       <div id="pause-overlay" class="overlay hidden">
         <div class="overlay-box">
           <p class="overlay-title">⏸ Paused</p>
           <p class="overlay-sub">Press <kbd>P</kbd> to resume</p>
         </div>
       </div>
-
-      <!-- Frog jump flash overlay (brief visual cue) -->
       <div id="frog-flash" class="frog-flash hidden"></div>
     </div>
-
   </div>
 
-  <!-- ══════════════════════════════════════════════════════
-       SCREEN 4 — GAME OVER
-  ══════════════════════════════════════════════════════ -->
   <div id="screen-gameover" class="screen">
     <div class="info-box gameover-box">
       <div class="gameover-icon">💀</div>
       <h2>Game Over</h2>
-
       <div class="score-row">
-        <div class="score-block">
-          <span class="score-label">Score</span>
-          <span class="score-value" id="go-score">0</span>
-        </div>
-        <div class="score-block">
-          <span class="score-label">🏆 Best</span>
-          <span class="score-value" id="go-highscore">0</span>
-        </div>
+        <div class="score-block"><span class="score-label">Score</span><span class="score-value" id="go-score">0</span></div>
+        <div class="score-block"><span class="score-label">🏆 Best</span><span class="score-value" id="go-highscore">0</span></div>
       </div>
-
       <p class="go-diff-label">Difficulty: <span id="go-diff">Easy</span></p>
-
       <div class="menu-buttons">
         <button class="btn btn-primary"   id="btn-restart">↺ Restart</button>
         <button class="btn btn-secondary" id="btn-mainmenu">🏠 Main Menu</button>
@@ -165,6 +158,137 @@
     </div>
   </div>
 
+
+  <!-- ══════════════════════════════════════════════════════
+       PUZZLE GAME SCREENS
+  ══════════════════════════════════════════════════════ -->
+
+  <!-- Puzzle: Level Select -->
+  <div id="screen-puzzle-select" class="screen">
+    <div class="puzzle-select-box">
+
+      <div class="psel-header">
+        <button class="btn-icon" id="psel-back">←</button>
+        <h2 class="psel-title">🧩 Let the Snake Out</h2>
+      </div>
+
+      <p class="psel-sub">Slide blocks to open a path. Free the snake!</p>
+
+      <!-- 3 difficulty groups, 3 levels each -->
+      <div class="psel-groups">
+
+        <div class="psel-group">
+          <h3 class="psel-group-title">🟢 Easy</h3>
+          <div class="psel-levels" data-diff="easy">
+            <button class="level-btn" data-diff="easy" data-level="0">
+              <span class="lvl-num">1</span>
+              <span class="lvl-stars" id="stars-easy-0">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="easy" data-level="1">
+              <span class="lvl-num">2</span>
+              <span class="lvl-stars" id="stars-easy-1">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="easy" data-level="2">
+              <span class="lvl-num">3</span>
+              <span class="lvl-stars" id="stars-easy-2">☆☆☆</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="psel-group">
+          <h3 class="psel-group-title">🟡 Medium</h3>
+          <div class="psel-levels" data-diff="medium">
+            <button class="level-btn" data-diff="medium" data-level="0">
+              <span class="lvl-num">1</span>
+              <span class="lvl-stars" id="stars-medium-0">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="medium" data-level="1">
+              <span class="lvl-num">2</span>
+              <span class="lvl-stars" id="stars-medium-1">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="medium" data-level="2">
+              <span class="lvl-num">3</span>
+              <span class="lvl-stars" id="stars-medium-2">☆☆☆</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="psel-group">
+          <h3 class="psel-group-title">🔴 Hard</h3>
+          <div class="psel-levels" data-diff="hard">
+            <button class="level-btn" data-diff="hard" data-level="0">
+              <span class="lvl-num">1</span>
+              <span class="lvl-stars" id="stars-hard-0">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="hard" data-level="1">
+              <span class="lvl-num">2</span>
+              <span class="lvl-stars" id="stars-hard-1">☆☆☆</span>
+            </button>
+            <button class="level-btn" data-diff="hard" data-level="2">
+              <span class="lvl-num">3</span>
+              <span class="lvl-stars" id="stars-hard-2">☆☆☆</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Puzzle: Playing Screen -->
+  <div id="screen-puzzle-game" class="screen">
+
+    <!-- ── Puzzle top HUD — all info in one bar above the board ── -->
+    <div class="puzzle-hud">
+      <button class="btn-icon" id="puzzle-back-btn" title="Back to levels">←</button>
+
+      <div class="phud-info">
+        <span class="phud-label" id="phud-level">Easy · Level 1</span>
+        <span class="phud-sub">Slide blocks · free the snake</span>
+      </div>
+
+      <div class="phud-stats">
+        <div class="phud-stat">
+          <span class="phud-stat-label">MOVES</span>
+          <span class="phud-stat-val" id="phud-moves">0</span>
+        </div>
+        <div class="phud-stat">
+          <span class="phud-stat-label">PAR</span>
+          <span class="phud-stat-val" id="phud-par">—</span>
+        </div>
+      </div>
+
+      <button class="btn-hint" id="puzzle-hint-btn">💡 Hint</button>
+      <button class="btn-icon" id="puzzle-reset-btn" title="Reset level">↺</button>
+    </div>
+
+    <!-- Canvas where the puzzle is drawn -->
+    <div class="canvas-wrap puzzle-canvas-wrap">
+      <canvas id="puzzle-canvas" width="600" height="600"></canvas>
+
+      <!-- Victory overlay -->
+      <div id="puzzle-win-overlay" class="overlay hidden">
+        <div class="overlay-box win-box">
+          <div class="win-emoji" id="win-emoji">🎉</div>
+          <p class="overlay-title">Snake is free!</p>
+          <div class="win-stars" id="win-stars">⭐⭐⭐</div>
+          <p class="win-detail" id="win-detail">Solved in 4 moves · par 5</p>
+          <div class="win-buttons">
+            <button class="btn btn-primary"   id="puzzle-next-btn">Next Level ▶</button>
+            <button class="btn btn-secondary" id="puzzle-retry-btn">↺ Retry</button>
+            <button class="btn btn-ghost"     id="puzzle-levels-btn">All Levels</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Scripts: load classic snake first, then puzzle -->
   <script src="game.js"></script>
+  <script src="puzzle.js"></script>
+  <script src="arcade.js"></script>
 </body>
 </html>
